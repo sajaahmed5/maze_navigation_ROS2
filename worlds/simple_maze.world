@@ -1,0 +1,137 @@
+<?xml version="1.0" ?>
+<!--
+  simple_maze.world — Gazebo Classic 11 (ROS 2 Humble)
+  =====================================================
+  WHAT CHANGED vs. the skeleton:
+
+  1. SDF version:  1.8 → 1.6
+     Gazebo Classic supports SDF ≤ 1.6.  Version 1.8 is an Ignition/Gz-Sim
+     extension; Classic will either reject it or silently ignore parts of it.
+
+  2. ALL four <plugin> blocks REMOVED:
+       libignition-gazebo-physics-system.so
+       libignition-gazebo-user-commands-system.so
+       libignition-gazebo-scene-broadcaster-system.so
+       libignition-gazebo-sensors-system.so
+     These .so files belong to Ignition Gazebo (the "new" Gazebo used by
+     Jazzy).  They do not exist on a Humble system that runs Gazebo Classic.
+     Gazebo Classic loads its physics engine, sensor simulation, and
+     rendering pipeline automatically — no world-level plugin tags needed.
+
+  3. Lighting & ground replaced with standard model:// includes
+     (functionally identical, just shorter and idiomatic for Classic).
+
+  4. <physics type="ode"> instead of type="ignored"
+     Classic needs a real engine name; "ignored" is an Ignition convention.
+
+  The maze geometry (4 outer walls + 3 inner walls) is UNCHANGED.
+-->
+<sdf version="1.6">
+  <world name="maze_world">
+
+    <!-- Physics — ODE is the Gazebo Classic default -->
+    <physics type="ode">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+
+    <!-- No <plugin> tags needed — Gazebo Classic handles everything. -->
+
+    <!-- Lighting -->
+    <include><uri>model://sun</uri></include>
+
+    <!-- Ground plane -->
+    <include><uri>model://ground_plane</uri></include>
+
+    <!-- ==========================================================
+         MAZE WALLS  (10 m × 10 m arena)
+         Navigable interior: x ∈ [0, 10],  y ∈ [0, 10]
+         ========================================================== -->
+
+    <!-- Outer Wall — South  (y = -0.5) -->
+    <model name="wall_south">
+      <pose>5 -0.5 0.5 0 0 0</pose>
+      <static>true</static>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>10 0.1 1</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>10 0.1 1</size></box></geometry>
+          <material><ambient>0.5 0.5 0.5 1</ambient><diffuse>0.5 0.5 0.5 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Outer Wall — North  (y = 10.5) -->
+    <model name="wall_north">
+      <pose>5 10.5 0.5 0 0 0</pose>
+      <static>true</static>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>10 0.1 1</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>10 0.1 1</size></box></geometry>
+          <material><ambient>0.5 0.5 0.5 1</ambient><diffuse>0.5 0.5 0.5 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Outer Wall — West  (x = -0.5) -->
+    <model name="wall_west">
+      <pose>-0.5 5 0.5 0 0 1.5708</pose>
+      <static>true</static>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>11 0.1 1</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>11 0.1 1</size></box></geometry>
+          <material><ambient>0.5 0.5 0.5 1</ambient><diffuse>0.5 0.5 0.5 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Outer Wall — East  (x = 10.5) -->
+    <model name="wall_east">
+      <pose>10.5 5 0.5 0 0 1.5708</pose>
+      <static>true</static>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>11 0.1 1</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>11 0.1 1</size></box></geometry>
+          <material><ambient>0.5 0.5 0.5 1</ambient><diffuse>0.5 0.5 0.5 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Inner Wall 1 — vertical bar at x = 2.5, spans y ∈ [0, 5] -->
+    <model name="inner_wall_1">
+      <pose>2.5 2.5 0.5 0 0 1.5708</pose>
+      <static>true</static>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>5 0.1 1</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>5 0.1 1</size></box></geometry>
+          <material><ambient>0.8 0.6 0.4 1</ambient><diffuse>0.8 0.6 0.4 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Inner Wall 2 — horizontal bar at y = 7.5, spans x ∈ [2.5, 7.5] -->
+    <model name="inner_wall_2">
+      <pose>5 7.5 0.5 0 0 0</pose>
+      <static>true</static>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>5 0.1 1</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>5 0.1 1</size></box></geometry>
+          <material><ambient>0.8 0.6 0.4 1</ambient><diffuse>0.8 0.6 0.4 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Inner Wall 3 — vertical bar at x = 7.5, spans y ∈ [2.5, 7.5] -->
+    <model name="inner_wall_3">
+      <pose>7.5 5 0.5 0 0 1.5708</pose>
+      <static>true</static>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>5 0.1 1</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>5 0.1 1</size></box></geometry>
+          <material><ambient>0.8 0.6 0.4 1</ambient><diffuse>0.8 0.6 0.4 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+  </world>
+</sdf>
