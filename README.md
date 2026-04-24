@@ -1,4 +1,4 @@
-# 🤖 Maze Navigation using Potential Field Method
+# Maze Navigation using Potential Field Method
 
 > A ROS 2 autonomous robot that navigates through a maze using Artificial Potential Field (APF) with a smart local-minima escape strategy.
 
@@ -6,13 +6,13 @@
 
 ---
 
-## 🎯 What This Does
+## What This Does
 
 A TurtleBot3 Burger navigates from point A to point B inside a walled maze — avoiding obstacles in real-time using LiDAR and the Potential Field Method. When the robot gets trapped in a local minimum (forces cancel out at wall corners), it automatically detects the trap and escapes using intermediate waypoints.
 
 ---
 
-## 📐 How It Works
+## How It Works
 
 ### Artificial Potential Field (APF)
 
@@ -60,7 +60,7 @@ maze_navigation/
 
 ---
 
-## ⚡ Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -103,7 +103,7 @@ ros2 run maze_navigation potential_field_planner --ros-args \
 
 ---
 
-## 🎛️ Parameters
+## Parameters
 
 | Parameter | Default | Description |
 |-----------|---------|-------------|
@@ -118,7 +118,7 @@ ros2 run maze_navigation potential_field_planner --ros-args \
 
 ---
 
-## 🔧 Humble vs Jazzy — Key Differences
+## Humble vs Jazzy — Key Differences
 
 This project was adapted from a Jazzy skeleton to run on Humble:
 
@@ -132,16 +132,10 @@ This project was adapted from a Jazzy skeleton to run on Humble:
 
 ---
 
-## 📝 Topics Used
+## Topics Used
 
 | Topic | Type | Direction |
 |-------|------|-----------|
 | `/cmd_vel` | `geometry_msgs/msg/Twist` | Publish (velocity commands) |
 | `/odom` | `nav_msgs/msg/Odometry` | Subscribe (robot position) |
 | `/scan` | `sensor_msgs/msg/LaserScan` | Subscribe (LiDAR data) |
-
----
-
-## 📄 License
-
-Apache-2.0
